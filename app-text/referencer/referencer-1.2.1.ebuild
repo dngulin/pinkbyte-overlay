@@ -6,7 +6,7 @@ EAPI="5"
 
 PYTHON_DEPEND="2:2.7"
 
-inherit fdo-mime eutils python
+inherit eutils fdo-mime python
 
 DESCRIPTION="Gnome application to organise documents or references, and to generate BibTeX bibliography files"
 HOMEPAGE="https://launchpad.net/referencer"
@@ -14,7 +14,6 @@ SRC_URI="https://launchpad.net/${PN}/1./${PV}/+download/$P.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE=""
 KEYWORDS="~amd64 ~x86"
 
 RDEPEND=">=app-text/poppler-0.12.3-r3[cairo]
