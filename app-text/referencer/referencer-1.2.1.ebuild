@@ -16,13 +16,16 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-RDEPEND=">=app-text/poppler-0.12.3-r3[cairo]
+COMMON_DEPEND=">=app-text/poppler-0.12.3-r3[cairo]
 	>=dev-cpp/gtkmm-2.8
 	>=dev-cpp/libglademm-2.6.0
 	>=dev-cpp/gconfmm-2.14.0
 	>=dev-libs/boost-1.52.0-r4"
 
-DEPEND="${RDEPEND}
+RDEPEND="${COMMON_DEPEND}
+	dev-python/pygtk:2"
+
+DEPEND="${COMMON_DEPEND}
 	>=app-text/gnome-doc-utils-0.3.2
 	virtual/pkgconfig
 	>=dev-lang/perl-5.8.1
