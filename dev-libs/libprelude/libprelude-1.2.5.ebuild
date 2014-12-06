@@ -50,6 +50,9 @@ src_prepare() {
 	# Python bindings are built/installed manually.
 	sed -e "/^SUBDIRS =/s/ python//" -i bindings/low-level/Makefile.am bindings/Makefile.am || die "sed failed"
 
+	# Autoconf script with wrong name
+	mv configure.in configure.ac || die
+
 	eautoreconf
 }
 
