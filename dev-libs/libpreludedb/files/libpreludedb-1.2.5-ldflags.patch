@@ -1,0 +1,11 @@
+--- bindings/perl/Makefile.PL.in	2012-03-19 14:41:40.000000000 +0100
++++ bindings/perl/Makefile.PL.in	2012-12-27 00:53:51.000000000 +0100
+@@ -7,7 +7,7 @@
+ my %attributs = (NAME => 'PreludeDB',
+ 		 INC => '-I@top_srcdir@/src/include @LIBPRELUDE_CFLAGS@ @LIBPRELUDE_PTHREAD_CFLAGS@',
+ 		 LIBS => ["-L@top_builddir@/src/.libs -lpreludedb", "-L$ENV{LIBDIR} -lpreludedb @LIBPRELUDE_LIBS@" ],
+-		 LDDLFLAGS => "@LIBPRELUDE_LDFLAGS@ @LIBPRELUDE_PTHREAD_CFLAGS@ $Config{lddlflags}");
++		 LDDLFLAGS => "@LDFLAGS@ @LIBPRELUDE_LDFLAGS@ @LIBPRELUDE_PTHREAD_CFLAGS@ $Config{lddlflags}");
+ 
+ if ( abs_path("@top_srcdir@") ne abs_path("@top_builddir@") ) {
+     foreach my $filename ( qw/PreludeDB.c PreludeDB.pm/ ) {
