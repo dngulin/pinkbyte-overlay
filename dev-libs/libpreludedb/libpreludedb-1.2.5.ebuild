@@ -19,8 +19,8 @@ KEYWORDS="~amd64 ~x86"
 IUSE="doc mysql postgres perl python sqlite"
 
 RDEPEND=">=dev-libs/libprelude-${PV}
-	mysql? ( virtual/mysql )
-	perl? ( dev-lang/perl )
+	mysql? ( virtual/mysql:= )
+	perl? ( dev-lang/perl:= )
 	python? ( ${PYTHON_DEPS} )
 	postgres? ( dev-db/postgresql-server )
 	sqlite? ( =dev-db/sqlite-3* )"

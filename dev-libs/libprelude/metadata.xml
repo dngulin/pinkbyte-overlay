@@ -6,7 +6,4 @@
 		<email>pinkbyte@gentoo.org</email>
 		<name>Sergey Popov</name>
 	</maintainer>
-	<use>
-		<flag name='swig'>Enable rebuild of swig bindings</flag>
-	</use>
 </pkgmetadata>

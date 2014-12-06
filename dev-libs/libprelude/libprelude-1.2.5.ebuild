@@ -27,7 +27,10 @@ RDEPEND=">=dev-libs/libgcrypt-1.1.94
 DEPEND="${RDEPEND}
 	dev-util/gtk-doc-am
 	sys-devel/flex
-	perl? ( dev-lang/swig:0 )"
+	perl? (
+		dev-lang/perl:=
+		dev-lang/swig:0
+	)"
 
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
