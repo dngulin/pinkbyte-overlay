@@ -22,7 +22,7 @@ RDEPEND=">=dev-libs/libprelude-${PV}
 	mysql? ( virtual/mysql:= )
 	perl? ( dev-lang/perl:= )
 	python? ( ${PYTHON_DEPS} )
-	postgres? ( dev-db/postgresql-server )
+	postgres? ( virtual/postgresql:* )
 	sqlite? ( =dev-db/sqlite-3* )"
 
 DEPEND="${RDEPEND}
