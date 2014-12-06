@@ -4,12 +4,10 @@
 
 EAPI=5
 
+DISTUTILS_OPTIONAL=1
 GENTOO_DEPEND_ON_PERL="no"
-PYTHON_DEPEND="python? 2"
-SUPPORT_PYTHON_ABIS="1"
-RESTRICT_PYTHON_ABIS="3.* *-jython"
-
-inherit autotools distutils eutils perl-module
+PYTHON_COMPAT=( python2_7 )
+inherit autotools distutils-r1 eutils perl-module
 
 DESCRIPTION="Prelude-IDS framework for easy access to the Prelude database"
 HOMEPAGE="http://www.prelude-siem.com"
@@ -23,21 +21,14 @@ IUSE="doc mysql postgres perl python sqlite"
 RDEPEND=">=dev-libs/libprelude-${PV}
 	mysql? ( virtual/mysql )
 	perl? ( dev-lang/perl )
+	python? ( ${PYTHON_DEPS} )
 	postgres? ( dev-db/postgresql-server )
 	sqlite? ( =dev-db/sqlite-3* )"
 
 DEPEND="${RDEPEND}
-	dev-util/gtk-doc-am
-	doc? ( dev-util/gtk-doc )"
+	dev-util/gtk-doc-am"
 
-DISTUTILS_SETUP_FILES=("bindings/python|setup.py")
-PYTHON_MODNAME="preludedb.py"
-
-pkg_setup() {
-	if use python; then
-		python_pkg_setup
-	fi
-}
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 src_prepare() {
 	epatch "${FILESDIR}/${P}-ldflags.patch"
@@ -67,7 +58,6 @@ src_prepare() {
 
 src_configure() {
 	econf \
-		$(use_enable doc gtk-doc) \
 		$(use_with mysql) \
 		$(use_with postgres postgresql) \
 		$(use_with sqlite sqlite3) \
@@ -75,12 +65,24 @@ src_configure() {
 		$(use_with python)
 }
 
+python_compile() {
+	pushd bindings/python 2>/dev/null || die
+	distutils-r1_python_compile
+	popd 2>/dev/null
+}
+
 src_compile() {
 	emake
 
 	if use python; then
-		distutils_src_compile
+		distutils-r1_src_compile
 	fi
+}
+
+python_install() {
+	pushd bindings/python 2>/dev/null || die
+	distutils-r1_python_install
+	popd 2>/dev/null
 }
 
 src_install() {
@@ -92,22 +94,10 @@ src_install() {
 		perl_delete_packlist
 	fi
 
-	if use python; then
-		distutils_src_install
-	fi
+	use python && distutils-r1_src_install
 }
 
 pkg_postinst() {
-	if use python; then
-		distutils_pkg_postinst
-	fi
-
 	elog "For additional installation instructions go to"
 	elog "https://www.prelude-ids.org/wiki/prelude/InstallingPreludeDbLibrary"
-}
-
-pkg_postrm() {
-	if use python; then
-		distutils_pkg_postrm
-	fi
 }
