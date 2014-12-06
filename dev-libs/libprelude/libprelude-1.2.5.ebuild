@@ -5,11 +5,8 @@
 EAPI=5
 
 GENTOO_DEPEND_ON_PERL="no"
-PYTHON_DEPEND="python? 2"
-SUPPORT_PYTHON_ABIS="1"
-RESTRICT_PYTHON_ABIS="3.* *-jython"
-
-inherit autotools distutils eutils flag-o-matic multilib perl-module
+PYTHON_COMPAT=( python2_7 )
+inherit autotools distutils-r1 eutils flag-o-matic multilib perl-module
 
 DESCRIPTION="Prelude-IDS Framework Library"
 HOMEPAGE="http://www.prelude-technologies.com"
@@ -30,14 +27,7 @@ DEPEND="${RDEPEND}
 	sys-devel/flex
 	perl? ( dev-lang/swig )"
 
-DISTUTILS_SETUP_FILES=("bindings/low-level/python|setup.py" "bindings/python|setup.py")
-PYTHON_MODNAME="prelude.py PreludeEasy.py"
-
-pkg_setup() {
-	if use python; then
-		python_pkg_setup
-	fi
-}
+DISTUTILS_PATHS="bindings/low-level/python bindings/python"
 
 src_prepare() {
 	epatch \
@@ -58,6 +48,7 @@ src_prepare() {
 		 sed -i -e '/SUBDIRS/s/api //' docs/Makefile.am || die
 	fi
 
+	epatch_user
 	eautoreconf
 }
 
@@ -74,12 +65,26 @@ src_configure() {
 		$(use_with ruby)
 }
 
+python_compile() {
+	for i in ${DISTUTILS_PATHS}; do
+		pushd $i 2>/dev/null || die
+		distutils-r1_python_compile
+		popd 2>/dev/null
+	done
+}
+
 src_compile() {
 	emake OTHERLDFLAGS="${LDFLAGS}"
 
-	if use python; then
-		distutils_src_compile
-	fi
+	use python && distutils-r1_src_compile
+}
+
+python_install() {
+	for i in ${DISTUTILS_PATHS}; do
+		pushd $i 2>/dev/null || die
+		distutils-r1_python_install
+		popd 2>/dev/null
+	done
 }
 
 src_install() {
@@ -94,25 +99,11 @@ src_install() {
 		perl_delete_packlist
 	fi
 
-	if use python; then
-		distutils_src_install
-	fi
+	use python && distutils-r1_src_install
 
 #	if use ruby; then
 #		find "${ED}/usr/$(get_libdir)/ruby" -name "*.la" -print0 | xargs -0 rm -f
 #	fi
 
 	prune_libtool_files
-}
-
-pkg_postinst() {
-	if use python; then
-		distutils_pkg_postinst
-	fi
-}
-
-pkg_postrm() {
-	if use python; then
-		distutils_pkg_postrm
-	fi
 }
