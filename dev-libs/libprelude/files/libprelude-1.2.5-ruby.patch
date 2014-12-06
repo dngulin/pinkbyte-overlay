@@ -1,0 +1,18 @@
+--- configure.in.orig	2014-12-06 11:17:43.088054536 +0300
++++ configure.in	2014-12-06 11:18:49.553055963 +0300
+@@ -466,9 +466,14 @@
+ dnl * Ruby support                                   *
+ dnl **************************************************
+ 
++AC_ARG_WITH(ruby, AC_HELP_STRING(--with-ruby, Enable support for ruby binding @<:@default=auto@:>@),
++            [ruby_required=true])
+ 
+-AM_PATH_RUBY(,with_ruby=yes, with_ruby=no)
+ if test x$with_ruby != xno; then
++    AM_PATH_RUBY(,with_ruby=yes, with_ruby=no)
++    if test x$with_ruby = xno && test x$ruby_required = xtrue; then
++       AC_MSG_ERROR([Could not find ruby binary])
++    fi
+     RUBY_ARCHDIR=`$RUBY -e 'require "rbconfig.rb"; puts RbConfig::expand("\$(archdir)")'`
+     RUBY_LIBRUBYARG=`$RUBY -e 'require "rbconfig.rb"; puts RbConfig::expand("\$(LIBRUBYARG)")'`
+ 
