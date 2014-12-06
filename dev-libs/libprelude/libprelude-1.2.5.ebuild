@@ -53,6 +53,11 @@ src_prepare() {
 	# Autoconf script with wrong name
 	mv configure.in configure.ac || die
 
+	# Do not install docs if it's not requested
+	if ! use doc; then
+		 sed -i -e '/SUBDIRS/s/api //' docs/Makefile.am || die
+	fi
+
 	eautoreconf
 }
 
@@ -62,7 +67,6 @@ src_configure() {
 	# SWIG is needed to build Perl high-level bindings.
 	econf \
 		--enable-easy-bindings \
-		$(use_enable doc gtk-doc) \
 		$(use_with lua) \
 		$(use_with perl) \
 		$(use_with perl swig) \
