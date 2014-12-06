@@ -20,13 +20,13 @@ IUSE="doc lua perl python"
 
 RDEPEND=">=dev-libs/libgcrypt-1.1.94
 	>=net-libs/gnutls-1.0.17
-	lua? ( dev-lang/lua )
+	lua? ( dev-lang/lua:0 )
 	perl? ( dev-lang/perl )
 	python? ( ${PYTHON_DEPS} )"
 
 DEPEND="${RDEPEND}
 	sys-devel/flex
-	perl? ( dev-lang/swig )"
+	perl? ( dev-lang/swig:0 )"
 
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
