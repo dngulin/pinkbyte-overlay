@@ -16,14 +16,13 @@ SRC_URI="https://www.prelude-ids.org/attachments/download/351/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="doc lua perl python ruby"
+IUSE="doc lua perl python"
 
 RDEPEND=">=dev-libs/libgcrypt-1.1.94
 	>=net-libs/gnutls-1.0.17
 	lua? ( dev-lang/lua )
 	perl? ( dev-lang/perl )
-	python? ( ${PYTHON_DEPS} )
-	ruby? ( dev-lang/ruby:* )"
+	python? ( ${PYTHON_DEPS} )"
 
 DEPEND="${RDEPEND}
 	sys-devel/flex
@@ -60,13 +59,14 @@ src_configure() {
 	filter-lfs-flags
 
 	# SWIG is needed to build Perl high-level bindings.
+	# Ruby bindings building need to be reworked, disabled for now
 	econf \
 		--enable-easy-bindings \
+		--without-ruby \
 		$(use_with lua) \
 		$(use_with perl) \
 		$(use_with perl swig) \
-		$(use_with python) \
-		$(use_with ruby)
+		$(use_with python)
 }
 
 python_compile() {
@@ -104,10 +104,6 @@ src_install() {
 	fi
 
 	use python && distutils-r1_src_install
-
-#	if use ruby; then
-#		find "${ED}/usr/$(get_libdir)/ruby" -name "*.la" -print0 | xargs -0 rm -f
-#	fi
 
 	prune_libtool_files
 }
