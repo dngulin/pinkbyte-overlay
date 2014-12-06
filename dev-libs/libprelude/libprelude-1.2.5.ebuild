@@ -93,10 +93,7 @@ python_install() {
 
 src_install() {
 	emake DESTDIR="${D}" INSTALLDIRS=vendor install
-
-	if use lua; then
-		rm -f "${ED}usr/$(get_libdir)/PreludeEasy.la"
-	fi
+	prune_libtool_files --all
 
 	if use perl; then
 		perl_delete_localpod
@@ -104,6 +101,4 @@ src_install() {
 	fi
 
 	use python && distutils-r1_src_install
-
-	prune_libtool_files
 }
