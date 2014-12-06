@@ -73,10 +73,7 @@ python_compile() {
 
 src_compile() {
 	emake
-
-	if use python; then
-		distutils-r1_src_compile
-	fi
+	use python && distutils-r1_src_compile
 }
 
 python_install() {
