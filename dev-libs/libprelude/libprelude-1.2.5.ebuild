@@ -4,6 +4,7 @@
 
 EAPI=5
 
+DISTUTILS_OPTIONAL=1
 GENTOO_DEPEND_ON_PERL="no"
 PYTHON_COMPAT=( python2_7 )
 inherit autotools distutils-r1 eutils flag-o-matic multilib perl-module
@@ -21,11 +22,14 @@ RDEPEND=">=dev-libs/libgcrypt-1.1.94
 	>=net-libs/gnutls-1.0.17
 	lua? ( dev-lang/lua )
 	perl? ( dev-lang/perl )
+	python? ( ${PYTHON_DEPS} )
 	ruby? ( dev-lang/ruby:* )"
 
 DEPEND="${RDEPEND}
 	sys-devel/flex
 	perl? ( dev-lang/swig )"
+
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 DISTUTILS_PATHS="bindings/low-level/python bindings/python"
 
