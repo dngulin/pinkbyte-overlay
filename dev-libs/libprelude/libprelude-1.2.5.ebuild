@@ -10,7 +10,7 @@ PYTHON_COMPAT=( python2_7 )
 inherit autotools distutils-r1 eutils flag-o-matic multilib perl-module
 
 DESCRIPTION="Prelude-IDS Framework Library"
-HOMEPAGE="http://www.prelude-technologies.com"
+HOMEPAGE="http://www.prelude-siem.com"
 SRC_URI="https://www.prelude-ids.org/attachments/download/351/${P}.tar.gz"
 
 LICENSE="GPL-2"
@@ -25,6 +25,7 @@ RDEPEND=">=dev-libs/libgcrypt-1.1.94
 	python? ( ${PYTHON_DEPS} )"
 
 DEPEND="${RDEPEND}
+	dev-util/gtk-doc-am
 	sys-devel/flex
 	perl? ( dev-lang/swig:0 )"
 
@@ -50,6 +51,8 @@ src_prepare() {
 	if ! use doc; then
 		 sed -i -e '/SUBDIRS/s/api //' docs/Makefile.am || die
 	fi
+
+	rm m4/gtk-doc.m4 || die
 
 	epatch_user
 	eautoreconf
