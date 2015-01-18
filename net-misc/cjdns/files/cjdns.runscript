@@ -1,0 +1,19 @@
+#!/sbin/runscript
+description="Encrypted networking for regular people."
+command=/usr/sbin/cjdroute
+name="CJDNS"
+
+start() {
+    if [ ! -e /dev/net/nut ]; then
+        ebegin "Inserting TUN module"
+        
+        if ! modprobe tun;  then
+            eerror "Failed to insert TUN kernel module"
+            exit 1
+        fi
+    fi
+
+    ebegin "Starting $name"
+    /usr/sbin/cjdroute < /etc/cjdroute.conf
+    eend $? "Failed to start $name"
+}
